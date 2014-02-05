@@ -1,4 +1,3 @@
-SE-for-ITE.pa3
-==============
+#Programming Assignment 3
 
-Programming Assignment 3
+Brandeis University, Spring 2014, COSI 236B - Software Engineering, lead by Professor Pito Salas

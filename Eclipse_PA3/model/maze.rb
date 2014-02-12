@@ -4,6 +4,7 @@
 class Maze
 
 	require_relative 'maze_cell'
+	require_relative '../maze_solver'
 
 	# Creates a new Maze object with _columns_num_ columns and _rows_num_ rows.
 	def initialize(columns_num, rows_num)
@@ -44,6 +45,14 @@ class Maze
 			disp_row(row, :bottom, '-+', ' +')
 			puts ''
 		end
+	end
+
+	def solve(start_x, start_y, end_x, end_y)
+		MazeSolver.new.trace(self, start_x, start_y, end_x, end_y).nil?
+	end
+
+	def trace(start_x, start_y, end_x, end_y)
+		MazeSolver.new.trace(self, start_x, start_y, end_x, end_y)
 	end
 
 	private

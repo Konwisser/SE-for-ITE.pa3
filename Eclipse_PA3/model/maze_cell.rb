@@ -76,7 +76,7 @@ class MazeCell
 		@neighbors[direction] = neighbor
 
 		return if prev_neighbor.nil?
-		
+
 		prev_neighbor.set_neighbor_non_rec(OPPOSITES[direction], nil)
 	end
 
@@ -89,5 +89,9 @@ class MazeCell
 	def validate_direction(direction)
 		message = "direction can only be :left, :top, :right, or :bottom"
 		raise message if !OPPOSITES.has_key?(direction)
+	end
+
+	def to_s
+		"(#{@column},#{@row})"
 	end
 end

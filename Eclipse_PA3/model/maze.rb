@@ -7,7 +7,7 @@ class Maze
 
 	# Creates a new Maze object with _columns_num_ columns and _rows_num_ rows.
 	def initialize(columns_num, rows_num)
-		@rows_num, @columns_num = rows_num, columns_num
+		@rows, @columns = rows_num, columns_num
 
 		# [row, column] as key, MazeCell objects as value
 		@cells = {}
@@ -15,10 +15,12 @@ class Maze
 		init_cells
 	end
 
+	# Loads the maze from the provided string by creating corresponding data
+	# structures.
 	# binary_maze:: the string of ones and zeros which defines the whole maze
 	def load(binary_maze)
-		(0..(@rows_num - 1)).each do |row|
-			(0..(@columns_num - 1)).each do |col|
+		(0..(@rows - 1)).each do |row|
+			(0..(@columns - 1)).each do |col|
 				set_wall(col, row, :right, binary_maze)
 				set_wall(col, row, :bottom, binary_maze)
 			end
@@ -31,7 +33,26 @@ class Maze
 		@cells[[column, row]]
 	end
 
+	def display()
+		puts "\n#{'+-' * @columns}+"
+
+		(0..(@rows - 1)).each do |row|
+			print '|'
+			disp_row(row, :right, ' |', '  ')
+
+			print "\n+"
+			disp_row(row, :bottom, '-+', ' +')
+			puts ''
+		end
+	end
+
 	private
+
+	def disp_row(row, direction, wall_print, no_wall_print)
+		(0..(@columns - 1)).each do |col|
+			print cell(col, row).wall?(direction) ? wall_print : no_wall_print
+		end
+	end
 
 	# Sets a wall at the right or bottom side of the provided cell if _binary_maze_
 	# has a '1' at the corresponding index.
@@ -48,7 +69,7 @@ class Maze
 
 		# the index of the character in the binary maze string which defines the right
 		# wall of the requested cell
-		char_index = bin_row * (2 * @columns_num + 1) + bin_col
+		char_index = bin_row * (2 * @columns + 1) + bin_col
 
 		cell(col, row).set_wall(dir) if binary_maze[char_index] == '1'
 	end
@@ -70,8 +91,8 @@ class Maze
 
 	# initializes the cell grid without any walls
 	def init_cells()
-		(0..(@rows_num - 1)).each do |row|
-			(0..(@columns_num - 1)).each do |col|
+		(0..(@rows - 1)).each do |row|
+			(0..(@columns - 1)).each do |col|
 				add_cell(col, row)
 			end
 		end

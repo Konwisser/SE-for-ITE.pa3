@@ -62,10 +62,22 @@ class MazeTest < Test::Unit::TestCase
 		assert(cell_2_2.wall?(:right))
 		assert(cell_2_2.wall?(:bottom))
 	end
-	
+
 	def test_display
 		maze = Maze.new(4, 4)
 		maze.load("111111111100010001111010101100010101101110101100000101111011101100000101111111111")
-		maze.display
+		maze.display()
+	end
+
+	def test_redesign
+		maze = Maze.new(4, 4)
+		maze.load("111111111100010001111010101100010101101110101100000101111011101100000101111111111")
+
+		5.times do
+			maze.redesign()
+			puts "redesign:"
+			maze.display()
+			puts
+		end
 	end
 end

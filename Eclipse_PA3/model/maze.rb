@@ -57,8 +57,37 @@ class Maze
 		MazeSolver.new.trace(self, start_x, start_y, end_x, end_y)
 	end
 
+	def redesign()
+		@cells.clear
+		init_cells()
+		
+		(@rows * @columns).times do
+			set_one_wall_randomly() if rand(2) == 1
+		end
+		
+		redesign() if invalid?
+	end
+
 	private
 
+	def invalid?
+		(0..(@rows - 1)).each do |row|
+			(0..(@columns - 1)).each do |col|
+				cell = cell(col, row)
+				walls = 0
+				MazeCell::DIRECTIONS.each {|dir| walls += 1 if cell.wall?(dir)}
+				return true if walls == 4
+			end
+		end
+		return false
+	end
+	
+	def set_one_wall_randomly()
+		cell = cell(rand(@columns), rand(@rows))
+		dir = MazeCell::DIRECTIONS[rand(4)]
+		cell.set_neighbor(dir, nil)
+	end
+	
 	def disp_row(row, direction, wall_print, no_wall_print)
 		(0..(@columns - 1)).each do |col|
 			print cell(col, row).wall?(direction) ? wall_print : no_wall_print
@@ -72,10 +101,10 @@ class Maze
 	def add_cell(column, row)
 		new_cell = @cells[[column, row]] = MazeCell.new(column, row)
 
-		new_cell.set_neighbor(:left, @cells[[column - 1, row]])
-		new_cell.set_neighbor(:top, @cells[[column, row - 1]])
-		new_cell.set_neighbor(:right, @cells[[column + 1, row]])
-		new_cell.set_neighbor(:bottom, @cells[[column, row + 1]])
+		new_cell.set_neighbor(:left, cell(column - 1, row))
+		new_cell.set_neighbor(:top, cell(column, row - 1))
+		new_cell.set_neighbor(:right, cell(column + 1, row))
+		new_cell.set_neighbor(:bottom, cell(column, row + 1))
 
 		new_cell
 	end

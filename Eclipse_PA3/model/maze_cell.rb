@@ -5,6 +5,9 @@
 #
 # Author:: Georg Konwisser (mailto:software@konwisser.de)
 class MazeCell
+	# all possible directions of a cell (all possibilities for a wall or a neighbor)
+	DIRECTIONS = [:left, :top, :right, :bottom]
+
 	# the x coordinate (across) of this cell. e.g. the cell (x,y)=(0,0) is in the
 	# upper left corner of the maze
 	attr_reader :column

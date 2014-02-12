@@ -6,6 +6,7 @@ class MazeSolver
 
 	require "set"
 	require_relative 'model/possible_step'
+	require_relative 'model/maze_cell'
 
 	# Returns a list of MazeCell objects representing a path from cell
 	# (_beg_x_, _beg_y_) to cell (_end_x_, _end_y_). If there is no such path this
@@ -69,7 +70,7 @@ class MazeSolver
 	# 	the step which led to _cur_cell_ or _nil_ if _cur_cell_ is the start cell
 	# cur_cell:: the cell we are currently in
 	def add_possible_steps(prev_step, cur_cell)
-		[:left, :top, :right, :bottom].each do |dir|
+		MazeCell::DIRECTIONS.each do |dir|
 			next_cell = cur_cell.neighbor(dir)
 			next if next_cell.nil? || @visited_cells.include?(next_cell)
 

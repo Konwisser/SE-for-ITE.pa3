@@ -6,3 +6,28 @@ Brandeis University, Spring 2014, COSI 236B - Software Engineering, lead by Prof
 Code quality:
 
 <a href="https://codeclimate.com/github/Konwisser/SE-for-ITE.pa3"><img src="https://codeclimate.com/github/Konwisser/SE-for-ITE.pa3.png" /></a>
+
+
+A maze randomly generated and validated by my code:
+
++-+-+-+-+-+-+-+-+-+-+-+-+
+| | | |                 |
++ + + + + +-+ +-+ +-+-+-+
+| | |   | | |       | | |
++ + +-+-+-+ + +-+ + + + +
+|       |       | |     |
++-+ +-+ +-+-+-+-+-+ +-+-+
+| | | |   | |   |       |
++ + + +-+ + + +-+ +-+ +-+
+|     | |         | |   |
++ + +-+ + + +-+ + + +-+-+
+| | |   |     |   | |   |
++-+ +-+-+-+-+ +-+-+-+ + +
+| | | |     |         | |
++ +-+ + +-+ +-+ +-+-+-+ +
+|   | |     |   |   | | |
++ +-+-+-+-+ + + + +-+ +-+
+| | | |   | |       |   |
++-+ + + + + + + + + +-+-+
+|     | | |   | |       |
++-+-+-+-+-+-+-+-+-+-+-+-+

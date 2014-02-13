@@ -5,7 +5,7 @@
 class MazeSolver
 
 	require "set"
-	require_relative 'model/possible_step'
+	require_relative 'model/step'
 	require_relative 'model/maze_cell'
 
 	# Returns a list of MazeCell objects representing a path from cell
@@ -15,7 +15,7 @@ class MazeSolver
 		start_cell = maze.cell(beg_x, beg_y)
 		@target_cell = maze.cell(end_x, end_y)
 		@visited_cells = Set.new [start_cell]
-		@possible_steps = []
+		@steps_queue = []
 
 		# Succeeds even in the rare case that a maze consists of only one cell or the
 		# start cell is dead but the start cell is also the end cell.
@@ -27,40 +27,33 @@ class MazeSolver
 
 	private
 
-	# Tries all steps which are currently in the @possible_steps list. If there are
-	# no possible steps to try this returns _nil_. If one of the possible steps leads
-	# to the target cell, the corresponding full path from start cell to target cell
-	# is returned as a list of MazeCell objects. Otherwise each currently possible
-	# step is taken from the list while all possible new steps after this one are
-	# added to the list. Then this method calls itself to try the new possible steps.
+	# Examines all possible steps which are currently in the queue, returns a
+	# successful path as soon as a step is found which leads to the target cell,
+	# removes each examined step, and adds new possible steps to the end of the queue
+	# which result from doing the current step. If this process leads to an empty
+	# queue there are no possible steps left and _nil_ is returned indicating that
+	# there is no possible path to the target cell.
 	def try_possible_steps()
-		return nil if @possible_steps.empty?
-
-		Array.new(@possible_steps).each do |step|
-			next_cell = step.next_cell
+		while !@steps_queue.empty? do
+			step = @steps_queue.delete_at(0)
+			@visited_cells << next_cell = step.to_cell
 			return path(step) if next_cell == @target_cell
 
-			@possible_steps.delete_at(0)
-			@visited_cells << next_cell
 			add_possible_steps(step, next_cell)
 		end
 
-		try_possible_steps()
+		return nil
 	end
 
 	# Returns a list of MazeCell objects representing the complete path which ends
-	# with _last_step_.
-	# last_step:: a step which leads to the @target_cell
-	def path(last_step)
-		path_helper(last_step, last_step.next_cell)
-	end
-
-	def path_helper(prev_step, cur_cell)
+	# with _step_.
+	# step:: a step which leads to the @target_cell
+	def path(step)
 		# recursion termination
-		return [cur_cell] if prev_step.nil?
+		return [step.from_cell, step.to_cell] if step.previous_step.nil?
 
 		# recursive call to add all previously visited cells
-		path_helper(prev_step.previous_step, prev_step.start_cell) << cur_cell
+		path(step.previous_step) << step.to_cell
 	end
 
 	# Assuming we are currently in cell _cur_cell_ this adds all possible steps in
@@ -74,7 +67,7 @@ class MazeSolver
 			next_cell = cur_cell.neighbor(dir)
 			next if next_cell.nil? || @visited_cells.include?(next_cell)
 
-			@possible_steps << PossibleStep.new(prev_step, cur_cell, dir)
+			@steps_queue << Step.new(prev_step, cur_cell, dir)
 		end
 	end
 end

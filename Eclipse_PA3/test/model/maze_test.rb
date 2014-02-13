@@ -78,6 +78,13 @@ class MazeTest < Test::Unit::TestCase
 			puts "redesign:"
 			maze.display()
 			puts
-		end
+		end		
+	end
+	
+	def test_new_design
+		puts "new design"
+		maze = Maze.new(12, 10)
+		maze.redesign()
+		maze.display()
 	end
 end

@@ -60,11 +60,14 @@ class Maze
 	def redesign()
 		@cells.clear
 		init_cells()
-		
-		(@rows * @columns).times do
-			set_one_wall_randomly() if rand(2) == 1
+
+		(0..(@rows - 1)).each do |row|
+			(0..(@columns - 1)).each do |col|
+				cell(col, row).set_neighbor(:right, nil) if rand(2) == 1
+				cell(col, row).set_neighbor(:bottom, nil) if rand(2) == 1
+			end
 		end
-		
+
 		redesign() if invalid?
 	end
 
@@ -81,13 +84,7 @@ class Maze
 		end
 		return false
 	end
-	
-	def set_one_wall_randomly()
-		cell = cell(rand(@columns), rand(@rows))
-		dir = MazeCell::DIRECTIONS[rand(4)]
-		cell.set_neighbor(dir, nil)
-	end
-	
+
 	def disp_row(row, direction, wall_print, no_wall_print)
 		(0..(@columns - 1)).each do |col|
 			print cell(col, row).wall?(direction) ? wall_print : no_wall_print

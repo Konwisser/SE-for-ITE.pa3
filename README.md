@@ -9,7 +9,7 @@ Code quality:
 
 
 A maze randomly generated and validated by my code:
-
+```
 +-+-+-+-+-+-+-+-+-+-+-+-+
 | | | |                 |
 + + + + + +-+ +-+ +-+-+-+
@@ -31,3 +31,4 @@ A maze randomly generated and validated by my code:
 +-+ + + + + + + + + +-+-+
 |     | | |   | |       |
 +-+-+-+-+-+-+-+-+-+-+-+-+
+```
